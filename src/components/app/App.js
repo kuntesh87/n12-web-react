@@ -37,6 +37,8 @@ import { GET_DAPPS_INFO, SEARCH_DAPPS_INFO } from '../../graphql/queries/getDapp
 
 import { useQuery } from '@apollo/react-hooks';
 
+import SignIn from '../../domain/login/sign-in-form';
+
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const theme = useTheme();
@@ -162,6 +164,9 @@ export default function PrimarySearchAppBar() {
 
         <Route path="/reports" render={()=>{
           return(<div>REPORT</div>)
+          }} />
+        <Route path="/signin" render={()=>{
+          return(<SignIn/>)
         }}/>
       </Container>
 
