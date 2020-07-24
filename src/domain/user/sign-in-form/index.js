@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,7 +12,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import useStyles from './sign-in-form.styles';
-
+import { useMutation } from '@apollo/react-hooks';
+import { SIGN_IN } from '../../../graphql/mutations/signInMutation'
+import { push } from 'connected-react-router';
+import { useHistory } from "react-router-dom";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -30,7 +33,30 @@ function Copyright() {
 
 export default function SignIn() {
   const classes = useStyles();
+  const [signIn, { data }] = useMutation(SIGN_IN);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+   let history = useHistory();
 
+   useEffect(() => {
+     if (data) {
+       const { login: { jwt } } = data;
+       if (jwt) {
+         //TODO: KHP Remove console log
+         console.log('sign in done jwt',jwt);
+         history.push("/")
+       }
+     }
+  });
+
+  const submitSignIn = (e) => {
+    e.preventDefault();
+    console.log(email);
+    console.log(password);
+    signIn({ variables: { email, password } });
+    setEmail('');
+    setPassword('');
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -41,7 +67,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={(e)=>submitSignIn(e)}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -52,6 +78,8 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -63,6 +91,8 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}

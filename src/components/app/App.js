@@ -27,7 +27,7 @@ import ResultsGridList from '../result-tiles';
 
 import useStyles from './App.styles';
 import { useTheme } from '@material-ui/core/styles';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+import { BrowserRouter as  Router, Switch, Link, Route } from 'react-router-dom';
 
 // uncomment for redux
 import { useSelector } from "react-redux";
@@ -37,7 +37,7 @@ import { GET_DAPPS_INFO, SEARCH_DAPPS_INFO } from '../../graphql/queries/getDapp
 
 import { useQuery } from '@apollo/react-hooks';
 
-import SignIn from '../../domain/login/sign-in-form';
+import SignIn from '../../domain/user/sign-in-form';
 
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
@@ -68,6 +68,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <Router>
+  <Switch>
     {/* <HistoryToggleProvider> */}
     {/* <SearchInputProvider> */}
     <div className={classes.grow}>
@@ -172,8 +173,8 @@ export default function PrimarySearchAppBar() {
 
     </div>
     {/* </SearchInputProvider> */}
-    {/* </HistoryToggleProvider> */}
-    </Router>
-
+        {/* </HistoryToggleProvider> */}
+    </Switch>
+</Router>
   );
 }
