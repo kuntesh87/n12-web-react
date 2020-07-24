@@ -14,7 +14,6 @@ import Container from '@material-ui/core/Container';
 import useStyles from './sign-in-form.styles';
 import { useMutation } from '@apollo/react-hooks';
 import { SIGN_IN } from '../../../graphql/mutations/signInMutation'
-import { push } from 'connected-react-router';
 import { useHistory } from "react-router-dom";
 function Copyright() {
   return (
@@ -35,7 +34,10 @@ export default function SignIn() {
   const classes = useStyles();
   const [signIn, { data }] = useMutation(SIGN_IN);
   const [email, setEmail] = useState('');
+  const [isEmailError, setIsEmailError] = useState(false);
   const [password, setPassword] = useState('');
+  const [isPasswordError, setIsPasswordError] = useState(false);
+
    let history = useHistory();
 
    useEffect(() => {
@@ -51,9 +53,21 @@ export default function SignIn() {
 
   const submitSignIn = (e) => {
     e.preventDefault();
-    console.log(email);
-    console.log(password);
-    signIn({ variables: { email, password } });
+    if (email !== '' && password !== '') {
+      try {
+      signIn({ variables: { email, password } });        
+      } catch (err) {
+        setIsEmailError(true);       
+        setIsPasswordError(true);        
+      }
+    } else {
+      if (email === '') {
+        setIsEmailError(true);       
+      }
+      if(password ===''){
+         setIsPasswordError(true);
+      }
+    }    
     setEmail('');
     setPassword('');
   }
@@ -69,6 +83,9 @@ export default function SignIn() {
         </Typography>
         <form className={classes.form} noValidate onSubmit={(e)=>submitSignIn(e)}>
           <TextField
+            error={isEmailError}
+            helperText={isEmailError ?'Invalid Email.':''}
+            type="email"
             variant="outlined"
             margin="normal"
             required
@@ -82,6 +99,8 @@ export default function SignIn() {
             onChange={(e)=>setEmail(e.target.value)}
           />
           <TextField
+            error={isPasswordError}
+            helperText={isPasswordError ?'Invalid Password': ''}
             variant="outlined"
             margin="normal"
             required
@@ -114,7 +133,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
