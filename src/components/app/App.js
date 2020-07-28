@@ -36,6 +36,8 @@ import { SEARCH_INPUT_QUERY } from '../../graphql/queries/submitSearchInputQueri
 import { GET_DAPPS_INFO, SEARCH_DAPPS_INFO } from '../../graphql/queries/getDappsQueries';
 
 import { useQuery } from '@apollo/react-hooks';
+import  SelectNotifications  from '../../domain/notifications/select-notifications';
+
 
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
@@ -162,7 +164,11 @@ export default function PrimarySearchAppBar() {
 
         <Route path="/reports" render={()=>{
           return(<div>REPORT</div>)
-        }}/>
+          }} />
+        <Route path="/selectNotifications" render={()=>{
+          return(<SelectNotifications/>)
+          }} />
+          
       </Container>
 
     </div>
