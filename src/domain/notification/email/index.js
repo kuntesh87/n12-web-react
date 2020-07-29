@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Container,CssBaseline,TextField,Button} from '@material-ui/core';
+import {Container,CssBaseline,TextField,Button, Typography} from '@material-ui/core';
 import useStyles from './email.styles';
 import { useDispatch } from "react-redux";
 import { updateEmail } from '.././notification.slice';
@@ -32,6 +32,9 @@ export default function Email() {
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <form className={classes.form} noValidate>
+                <Typography gutterBottom variant="h5" component="h2">
+                 Where would you like to receive the notifications?
+                </Typography>
                 <TextField
                     error={isEmailError}
                     helperText={isEmailError ?'Invalid Email.':''}
