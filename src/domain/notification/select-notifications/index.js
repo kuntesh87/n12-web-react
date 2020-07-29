@@ -1,17 +1,17 @@
 import React from 'react';
 import { SELECTED_DAPP } from '../../../graphql/queries/getDappsQueries';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { Typography,  Avatar, Button } from '@material-ui/core';
 import LabledSwitch from '../../../components/labled-switch';
 import useStyles from './select-notifications.styles';
 import { useDispatch } from "react-redux";
 import { updateSelectedDapp,updateSelectedNotifications } from '../notification.slice';
+import { useParams } from 'react-router-dom';
 
 export default function SelectNotifications() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  
-  const dAppUuid = '4c4c510c-f12c-4c62-b824-c511490f3a80';  
+  const { dAppUuid } = useParams();
   const checkedNotifications = [];  
   const { loading, error, data } = useQuery(SELECTED_DAPP,{
     variables: { dAppUuid },
