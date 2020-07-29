@@ -17,7 +17,7 @@ export default function SelectNotifications() {
     variables: { dAppUuid },
   });
  
-    const handelChecked = (event) => {
+    const handleChecked = (event) => {
         if (event.target.checked) {
             checkedNotifications.push(event.target.value);
         } else {
@@ -25,7 +25,7 @@ export default function SelectNotifications() {
         } 
     };
 
-    const handelNext = () => {
+    const handleNext = () => {
         dispatch(updateSelectedDapp(dAppUuid));
         dispatch(updateSelectedNotifications(checkedNotifications))
     }
@@ -35,22 +35,22 @@ export default function SelectNotifications() {
         {
                 data ?
                     <div>
-                        <Avatar alt="Remy Sharp" src={data.dApps.logoUrl} className={classes.large} />
+                        <Avatar alt="Dapp Logo" src={data.dApps.logoUrl} className={classes.large} />
                         <Typography gutterBottom variant="h5" component="h2">
                             {data.dApps.name}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
                         {data.dApps.description}
-                                        </Typography>  
+                        </Typography>  
                         {data.dApps.Notifications.map( notification => (
-                            <LabledSwitch title={notification.name} onChange={handelChecked} value ={notification.uuid} />
+                            <LabledSwitch title={notification.name} onChange={handleChecked} value ={notification.uuid} />
                         ))}  
-                        <Button variant="contained" color="primary" onClick ={()=>handelNext()}>
+                        <Button variant="contained" color="primary" onClick ={()=>handleNext()}>
                         Next
                         </Button>              
                     </div>  
                 : null          
       }
-    </div> 
+    </div>
   );
 }
