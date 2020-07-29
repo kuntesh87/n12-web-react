@@ -1,16 +1,17 @@
 import React from 'react';
 import { SELECTED_DAPP } from '../../../graphql/queries/getDappsQueries';
 import { useQuery } from '@apollo/react-hooks';
-import { Typography,  Avatar, Button } from '@material-ui/core';
+import { Typography,  Avatar, Button,Container,CssBaseline } from '@material-ui/core';
 import LabledSwitch from '../../../components/labled-switch';
 import useStyles from './select-notifications.styles';
 import { useDispatch } from "react-redux";
 import { updateSelectedDapp,updateSelectedNotifications } from '../notification.slice';
+import { useHistory } from "react-router-dom";
 
 export default function SelectNotifications() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  
+  let history = useHistory();
   const dAppUuid = '4c4c510c-f12c-4c62-b824-c511490f3a80';  
   const checkedNotifications = [];  
   const { loading, error, data } = useQuery(SELECTED_DAPP,{
@@ -27,7 +28,8 @@ export default function SelectNotifications() {
 
     const handleNext = () => {
         dispatch(updateSelectedDapp(dAppUuid));
-        dispatch(updateSelectedNotifications(checkedNotifications))
+        dispatch(updateSelectedNotifications(checkedNotifications));
+        history.push("/email")
     }
     
     return (
@@ -35,6 +37,8 @@ export default function SelectNotifications() {
         {
                 data ?
                     <div>
+                        <Container component="main" maxWidth="xs">
+                        <CssBaseline />
                         <Avatar alt="Dapp Logo" src={data.dApps.logoUrl} className={classes.large} />
                         <Typography gutterBottom variant="h5" component="h2">
                             {data.dApps.name}
@@ -46,8 +50,9 @@ export default function SelectNotifications() {
                             <LabledSwitch title={notification.name} onChange={handleChecked} value ={notification.uuid} />
                         ))}  
                         <Button variant="contained" color="primary" onClick ={()=>handleNext()}>
-                        Next
-                        </Button>              
+                                Next
+                        </Button> 
+                        </Container>    
                     </div>  
                 : null          
       }
