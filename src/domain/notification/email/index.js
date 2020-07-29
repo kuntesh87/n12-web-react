@@ -29,7 +29,8 @@ export default function Email() {
     setEmail('');        
     }
     return (
-        <Container component="main" maxWidth="xs">
+        <div className={classes.emailContainer} >
+        <Container component="main"  maxWidth="xs">
             <CssBaseline />
             <form className={classes.form} noValidate>
                 <Typography gutterBottom variant="h5" component="h2">
@@ -55,5 +56,6 @@ export default function Email() {
                 </Button>
             </form>
         </Container>
+        </div>
     );
 }
