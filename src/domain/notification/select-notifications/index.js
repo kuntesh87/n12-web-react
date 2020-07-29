@@ -7,12 +7,13 @@ import useStyles from './select-notifications.styles';
 import { useDispatch } from "react-redux";
 import { updateSelectedDapp,updateSelectedNotifications } from '../notification.slice';
 import { useHistory } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 export default function SelectNotifications() {
   const classes = useStyles();
   const dispatch = useDispatch();
   let history = useHistory();
-  const dAppUuid = '4c4c510c-f12c-4c62-b824-c511490f3a80';  
+  const { dAppUuid } = useParams();
   const checkedNotifications = [];  
   const { loading, error, data } = useQuery(SELECTED_DAPP,{
     variables: { dAppUuid },
