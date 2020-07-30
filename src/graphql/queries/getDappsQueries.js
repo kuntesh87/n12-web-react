@@ -33,6 +33,7 @@ query searchDApps($searchLike:  String!) {
 export const SELECTED_DAPP = gql`
 query selectedDapp($dAppUuid: String!) {
   dApps(uuid: $dAppUuid){
+    uuid,
     name,
     description,
     logoUrl,  
