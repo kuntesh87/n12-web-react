@@ -2,17 +2,30 @@ import React from 'react';
 import { Typography,  Avatar, Button, Grid, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import LabeledSwitch from '../../../components/labeled-switch';
-import useStyles from './select-notifications.styles';
+import useStyles from './confirm.styles';
 import { useSelector } from "react-redux";
 import { Notification } from "../notification.slice";
+import { useHistory } from "react-router-dom";
+import { useQuery ,useMutation } from '@apollo/client';
+import { SELECTED_DAPP } from '../../../graphql/queries/getDappsQueries';
+import {  SUBSCRIBE_NOTIFICATIONS } from '../../../graphql/mutations/subscribeNotificationsMutation';
 
 export default function Confirm() {
     const classes = useStyles();
-    const { selectedNotifications } = useSelector(Notification);    
-    console.log('selectedNotifications', selectedNotifications);
-    const data = [];
-    const handleNext = () => {
-        
+    const { selectedDapp, selectedNotifications,email } = useSelector(Notification);
+    
+    let history = useHistory();
+    const dAppUuid = selectedDapp;
+    const { error, data } = useQuery(SELECTED_DAPP,{
+    variables: { dAppUuid },
+    });
+    const  subscribeNotificationsMutation = useMutation(SUBSCRIBE_NOTIFICATIONS); 
+
+    const handleSubmit = () => {
+        const [subscribeNotificcations, { data }] = subscribeNotificationsMutation;
+        subscribeNotificcations({ variables: { email:"kuntesh87@gmail.com", dAppUuid,selectedNotifications } });
+        console.log(data);
+        history.push("/");
     }
     
     return (
@@ -65,8 +78,8 @@ export default function Confirm() {
               </Grid> 
             }  
             <Grid item xs={12} >
-              <Button variant="contained" color="primary" onClick ={()=>handleNext()}>
-                Next
+              <Button variant="contained" color="primary" onClick ={handleSubmit}>
+                Submit
               </Button>
             </Grid>       
         </Grid>

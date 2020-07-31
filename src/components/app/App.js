@@ -38,8 +38,10 @@ export default function PrimarySearchAppBar() {
             <Route path="/selectNotifications/:dAppUuid" render={() => {
               return (<div><SelectNotifications /></div>)
             }} />
-            <Route path="/" component={Dapps}></Route>
             <Route path="/confirm" component={Confirm}></Route>
+             
+            {/* Keep it last  */}
+            <Route path="/" component={Dapps}></Route>
           </Switch>
         </Container>
 
