@@ -2,7 +2,7 @@ import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 
 export const notificationAdapter = createEntityAdapter();
 
-const initialState = notificationAdapter.getInitialState({selectedNotifications: [], selectedDapp:""});
+const initialState = notificationAdapter.getInitialState({selectedNotifications: [], selectedDapp:"",email:""});
 
 export const notificationSlice = createSlice({
   name: 'notification',
@@ -14,11 +14,14 @@ export const notificationSlice = createSlice({
     updateSelectedDapp: (state, action) => {
       return {...state, selectedDapp: action.payload}
     },
+    updateEmail: (state, action) => {
+      return {...state, email: action.payload}
+    },
   }
 })
 
 
-export const { updateSelectedNotifications,updateSelectedDapp } = notificationSlice.actions;
+export const { updateSelectedNotifications,updateSelectedDapp,updateEmail } = notificationSlice.actions;
 
 export const Notification = (state) => state.notification;
 
