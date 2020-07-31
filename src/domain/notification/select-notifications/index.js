@@ -3,17 +3,17 @@ import { SELECTED_DAPP } from '../../../graphql/queries/getDappsQueries';
 import { useQuery } from '@apollo/client';
 import { Typography,  Avatar, Button, Grid, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
-
 import LabeledSwitch from '../../../components/labeled-switch';
 import useStyles from './select-notifications.styles';
 import { useDispatch } from "react-redux";
 import { updateSelectedDapp,updateSelectedNotifications } from '../notification.slice';
+import { useHistory } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 
 export default function SelectNotifications() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  let history = useHistory();
   const { dAppUuid } = useParams();
   const checkedNotifications = [];  
   const { error, data } = useQuery(SELECTED_DAPP,{
@@ -30,7 +30,8 @@ export default function SelectNotifications() {
 
     const handleNext = () => {
         dispatch(updateSelectedDapp(dAppUuid));
-        dispatch(updateSelectedNotifications(checkedNotifications))
+        dispatch(updateSelectedNotifications(checkedNotifications));
+        history.push("/email")
     }
     
     return (
