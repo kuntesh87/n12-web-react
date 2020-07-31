@@ -23,11 +23,17 @@ export default function Confirm() {
 
     const handleSubmit = () => {
         const [subscribeNotificcations, { data }] = subscribeNotificationsMutation;
-        subscribeNotificcations({ variables: { email:"kuntesh87@gmail.com", dAppUuid,selectedNotifications } });
+        subscribeNotificcations({ variables: { email, dAppUuid,selectedNotifications } });
         console.log(data);
         history.push("/");
     }
     
+    const isSelected = (notification) => {
+        const index = selectedNotifications.indexOf(notification.uuid);
+        const result = index > -1 ? true : false;
+        return result;
+    }
+
     return (
     <div> 
       {
@@ -49,12 +55,17 @@ export default function Confirm() {
           </Grid>
           <Grid item xs={12} >
             <Typography variant="body2" color="textSecondary" component="p">
-            {data.dApps.description}
+             Please Verify Email and all other Informations.
+            </Typography> 
+           </Grid>
+           <Grid item xs={12} >
+            <Typography variant="body2" color="textSecondary" component="p">
+             {email}
             </Typography> 
           </Grid>
             {data.dApps.Notifications ? data.dApps.Notifications.map( notification => (
               <Grid item xs={12} >
-                <LabeledSwitch title={notification.name}  value={notification.uuid} />
+                    <LabeledSwitch title={notification.name} disabled={true} checked={isSelected(notification)}  value={notification.uuid} />
                 <ExpansionPanel>
                   <ExpansionPanelSummary
                     expandIcon={<ExpandMoreIcon />}

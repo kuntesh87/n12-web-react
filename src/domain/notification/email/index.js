@@ -1,28 +1,30 @@
 import React, { useState } from 'react';
 import {Container,CssBaseline,TextField,Button, Typography} from '@material-ui/core';
 import useStyles from './email.styles';
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { updateEmail } from '.././notification.slice';
 import { useHistory } from "react-router-dom";
+import { Notification } from "../notification.slice";
 
 export default function Email() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('');
+  const{ email } = useSelector(Notification);
+  const [emailText, setEmail] = useState(email||'');
   const [isEmailError, setIsEmailError] = useState(false);
   let history = useHistory();  
     
   const handleNext = (e) => {
     e.preventDefault();
-    if (email !== '') {
+    if (emailText !== '') {
       try {
-        dispatch(updateEmail(email));  
+        dispatch(updateEmail(emailText));  
         history.push("/confirm")     
       } catch (err) {
         setIsEmailError(true);       
       }
     } else {
-      if (email === '') {
+      if (emailText === '') {
         setIsEmailError(true);       
       }
     }    
@@ -36,7 +38,8 @@ export default function Email() {
                 <Typography gutterBottom variant="h5" component="h2">
                  Where would you like to receive the notifications?
                 </Typography>
-                <TextField
+               <TextField
+                    type="email"
                     error={isEmailError}
                     helperText={isEmailError ?'Invalid Email.':''}
                     variant="outlined"
@@ -48,7 +51,7 @@ export default function Email() {
                     name="email"
                     autoComplete="email"
                     autoFocus
-                    value={email}
+                    value={emailText}
                     onChange={(e)=>setEmail(e.target.value)}
                 />
                 <Button variant="contained" color="primary" onClick ={handleNext}>
