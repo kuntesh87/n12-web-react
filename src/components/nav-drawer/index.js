@@ -7,7 +7,6 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 // import tileData from './tileData';
-import {SearchInputContext} from '../../context/search-input-context';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavigationDrawer() {
   const classes = useStyles();
-  const searchContext = useContext(SearchInputContext);
 
   return (
     <Drawer

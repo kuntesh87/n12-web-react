@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
@@ -34,7 +34,7 @@ function Dapps() {
               title={`${dapp.name} Logo`}
             />
             <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
+              <Typography gutterBottom variant="h5" component="h5">
                 {dapp.name}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
