@@ -8,6 +8,7 @@ import useStyles from './App.styles';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 
 import SelectNotifications from '../../domain/notification/select-notifications'
+import Confirm from '../../domain/notification/confirm';
 
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
@@ -38,6 +39,7 @@ export default function PrimarySearchAppBar() {
               return (<div><SelectNotifications /></div>)
             }} />
             <Route path="/" component={Dapps}></Route>
+            <Route path="/confirm" component={Confirm}></Route>
           </Switch>
         </Container>
 
