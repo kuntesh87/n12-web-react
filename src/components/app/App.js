@@ -8,6 +8,7 @@ import useStyles from './App.styles';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 
 import SelectNotifications from '../../domain/notification/select-notifications'
+import Confirm from '../../domain/notification/confirm';
 import Email from '../../domain/notification/email';
 
 export default function PrimarySearchAppBar() {
@@ -38,10 +39,12 @@ export default function PrimarySearchAppBar() {
             <Route path="/selectNotifications/:dAppUuid" render={() => {
               return (<div><SelectNotifications /></div>)
             }} />
+            <Route path="/email" component={Email} ></Route>
+            <Route path="/confirm" component={Confirm}></Route>
+             
+            {/* Keep it last  */}
             <Route path="/" component={Dapps}></Route>
-            <Route path="/email" render={()=>{
-             return(<div><Email /></div>)
-            }} />
+            
           </Switch>
         </Container>
 
