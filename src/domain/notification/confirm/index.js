@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import LabeledSwitch from '../../../components/labeled-switch';
 import useStyles from './confirm.styles';
 import { useSelector, useDispatch } from "react-redux";
-import { Notification } from "../notification.slice";
+import { Notification, updateEmail,updateSelectedNotifications } from "../notification.slice";
 import { useHistory } from "react-router-dom";
 import { useQuery ,useMutation } from '@apollo/client';
 import { SELECTED_DAPP } from '../../../graphql/queries/getDappsQueries';
@@ -25,10 +25,14 @@ export default function Confirm() {
 
   const handleSubmit = () => {
     try {
-        const [subscribeNotificcations, { data }] = subscribeNotificationsMutation;
-        subscribeNotificcations({ variables: { email, dAppUuid,selectedNotifications } });
-        dispatch(openSnackbar({message:  "Succeeded.Check your Inbox for more details.",type:"success"}))
-        history.push("/");
+      const [subscribeNotificcations, { data }] = subscribeNotificationsMutation;
+      subscribeNotificcations({ variables: { email, dAppUuid,selectedNotifications } });
+      dispatch(openSnackbar({message:  "Succeeded.Check your Inbox for more details.",type:"success"}))
+      //reset Reducer  
+      dispatch(updateEmail(""));
+      dispatch(updateSelectedNotifications([]));
+      history.push("/");
+      
     } catch (err) {
       dispatch(openSnackbar({ message: "Failed.Please try again.", type: "error" }));       
       }       
@@ -70,8 +74,8 @@ export default function Confirm() {
             </Typography> 
           </Grid>
             {data.dApps.Notifications ? data.dApps.Notifications.map( notification => (
-              <Grid item xs={12} >
-                    <LabeledSwitch title={notification.name} disabled={true} checked={isSelected(notification)}  value={notification.uuid} />
+              <Grid item xs={12} key={notification.uuid}>
+                <LabeledSwitch title={notification.name} disabled={true} checked={isSelected(notification)}  value={notification.uuid} />
                 <ExpansionPanel>
                   <ExpansionPanelSummary
                     expandIcon={<ExpandMoreIcon />}
