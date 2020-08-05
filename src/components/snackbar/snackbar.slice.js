@@ -2,7 +2,7 @@ import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 
 export const snackbarAdapter = createEntityAdapter();
 
-const initialState = snackbarAdapter.getInitialState({isOpen: false , type:"",message:""});
+const initialState = snackbarAdapter.getInitialState({isOpen: false , type:"info", message:""});
 
 export const snackbarSlice = createSlice({
   name: 'snackbar',
@@ -12,7 +12,7 @@ export const snackbarSlice = createSlice({
       return {...state, isOpen:true,type: action.payload.type,message: action.payload.message}
       },
     closeSnackbar: (state, action) => {
-      return {...state, isOpen:false,type: "",message: ""}
+      return {...state, isOpen:false,type: "info",message: ""}
       },  
   }
 })

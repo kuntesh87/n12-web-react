@@ -12,21 +12,21 @@ import {  SUBSCRIBE_NOTIFICATIONS } from '../../../graphql/mutations/subscribeNo
 import { openSnackbar } from '../../../components/snackbar/snackbar.slice';
 
 export default function Confirm() {
-    const classes = useStyles();
-    const { selectedDapp, selectedNotifications,email } = useSelector(Notification);
-    
-    let history = useHistory();
-    const dispatch = useDispatch();
-    const dAppUuid = selectedDapp;
-    const { error, data } = useQuery(SELECTED_DAPP,{
+  const classes = useStyles();
+  const { selectedDapp, selectedNotifications,email } = useSelector(Notification);
+  
+  let history = useHistory();
+  const dispatch = useDispatch();
+  const dAppUuid = selectedDapp;
+  const { error, data } = useQuery(SELECTED_DAPP,{
     variables: { dAppUuid },
-    });
-    const  subscribeNotificationsMutation = useMutation(SUBSCRIBE_NOTIFICATIONS); 
+  });
+  const  subscribeNotificationsMutation = useMutation(SUBSCRIBE_NOTIFICATIONS); 
+  const [subscribeNotifications, {  data: subscribeNotificationData, error: subscribeNotificationsError }] = subscribeNotificationsMutation;
 
   const handleSubmit = () => {
     try {
-      const [subscribeNotificcations, { data }] = subscribeNotificationsMutation;
-      subscribeNotificcations({ variables: { email, dAppUuid,selectedNotifications } });
+      subscribeNotifications({ variables: { email, dAppUuid,selectedNotifications } });
       dispatch(openSnackbar({message:  "Succeeded.Check your Inbox for more details.",type:"success"}))
       //reset Reducer  
       dispatch(updateEmail(""));
@@ -44,7 +44,16 @@ export default function Confirm() {
         return result;
     }
 
-    return (
+  if(subscribeNotificationsError){
+    dispatch(openSnackbar({ message: "Failed. Please try again.", type: "error" }));
+  }
+
+  if(subscribeNotificationData){
+    dispatch(openSnackbar({message:  "Succeeded. Check your Inbox for more details.",type:"success"}));
+    history.push("/");
+  }
+
+  return (
     <div> 
       {
         data ?
@@ -65,17 +74,17 @@ export default function Confirm() {
           </Grid>
           <Grid item xs={12} >
             <Typography variant="body2" color="textSecondary" component="p">
-             Please Verify Email and all other Informations.
+              Please Verify Email and all other Informations.
             </Typography> 
-           </Grid>
-           <Grid item xs={12} >
+            </Grid>
+            <Grid item xs={12} >
             <Typography variant="body2" color="textSecondary" component="p">
-             {email}
+              {email}
             </Typography> 
           </Grid>
             {data.dApps.Notifications ? data.dApps.Notifications.map( notification => (
               <Grid item xs={12} key={notification.uuid}>
-                <LabeledSwitch title={notification.name} disabled={true} checked={isSelected(notification)}  value={notification.uuid} />
+                  <LabeledSwitch title={notification.name} disabled={true} checked={isSelected(notification)}  value={notification.uuid} />
                 <ExpansionPanel>
                   <ExpansionPanelSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -106,6 +115,8 @@ export default function Confirm() {
         </Grid>
         : console.log(error)      
       }
+      {/* { subscribeNotificationData && console.log('submit data') } */}
+      {/* { subscribeNotificationsError && somethingWentWrong } */}
     </div>
   );
 }
