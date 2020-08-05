@@ -20,21 +20,21 @@ export default function SelectNotifications() {
     variables: { dAppUuid },
   });
  
-    const handleChecked = (event) => {
-        if (event.target.checked) {
-            checkedNotifications.push(event.target.value);
-        } else {
-            checkedNotifications.pop(event.target.value);            
-        } 
-    };
+  const handleChecked = (event) => {
+    if (event.target.checked) {
+      checkedNotifications.push(event.target.value);
+    } else {
+      checkedNotifications.pop(event.target.value);            
+    } 
+  };
 
-    const handleNext = () => {
-        dispatch(updateSelectedDapp(dAppUuid));
-        dispatch(updateSelectedNotifications(checkedNotifications));
-        history.push("/email")
-    }
+  const handleNext = () => {
+    dispatch(updateSelectedDapp(dAppUuid));
+    dispatch(updateSelectedNotifications(checkedNotifications));
+    history.push("/email")
+  }
     
-    return (
+  return (
     <div> 
       {
         data ?
@@ -59,7 +59,7 @@ export default function SelectNotifications() {
             </Typography> 
           </Grid>
             {data.dApps.Notifications ? data.dApps.Notifications.map( notification => (
-              <Grid item xs={12} >
+              <Grid item xs={12} key={notification.uuid}>
                 <LabeledSwitch title={notification.name} onChange={handleChecked} value={notification.uuid} />
                 <ExpansionPanel>
                   <ExpansionPanelSummary
