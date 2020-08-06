@@ -13,7 +13,7 @@ import { openSnackbar } from '../../../components/snackbar/snackbar.slice';
 
 export default function Confirm() {
   const classes = useStyles();
-  const { selectedDapp, selectedNotifications,email } = useSelector(Notification);
+  const { selectedDapp, selectedNotifications, email } = useSelector(Notification);
   
   let history = useHistory();
   const dispatch = useDispatch();
@@ -24,26 +24,27 @@ export default function Confirm() {
   const  subscribeNotificationsMutation = useMutation(SUBSCRIBE_NOTIFICATIONS); 
   const [subscribeNotifications, {  data: subscribeNotificationData, error: subscribeNotificationsError }] = subscribeNotificationsMutation;
 
-  const handleSubmit = () => {
-      subscribeNotifications({ variables: { email, dAppUuid,selectedNotifications } });
-    }
+  const handleSubmit = async () => {
+    await subscribeNotifications({ variables: { email, dAppUuid,selectedNotifications } });
+  }
     
-    const isSelected = (notification) => {
-        const index = selectedNotifications.indexOf(notification.uuid);
-        const result = index > -1 ? true : false;
-        return result;
-    }
-
-  if(subscribeNotificationsError){
-    dispatch(openSnackbar({ message: "Failed. Please try again.", type: "error" }));
+  const isSelected = (notification) => {
+    const index = selectedNotifications.indexOf(notification.uuid);
+    const result = index > -1 ? true : false;
+    return result;
   }
 
   if(subscribeNotificationData){
+    // TO FIX: issues on rerender
+    // dispatch(updateEmail(""));
+    // dispatch(updateSelectedNotifications([]));
     dispatch(openSnackbar({message:  "Succeeded. Check your Inbox for more details.",type:"success"}));
-    history.push("/");
     //reset reducer;
-    dispatch(updateEmail(""));
-    dispatch(updateSelectedNotifications([]));
+    history.push("/");
+  }
+
+  if(subscribeNotificationsError){
+    dispatch(openSnackbar({ message: "Failed. Please try again.", type: "error" }));
   }
 
   return (

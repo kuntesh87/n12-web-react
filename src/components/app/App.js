@@ -43,7 +43,7 @@ export default function PrimarySearchAppBar() {
             }} />
             <Route path="/email" component={Email} ></Route>
             <Route path="/confirm" component={Confirm}></Route>
-            <Route path="/manage-subscription/:userUuid/:dAppUuid" component={ManageNotifications}></Route>
+            <Route path="/manage-subscription/:userUuid" component={ManageNotifications}></Route>
              
             {/* Keep it last  */}
             <Route path="/" component={Dapps}></Route>

@@ -1,12 +1,13 @@
 import React from 'react';
-import { Typography, Button, Grid } from '@material-ui/core';
+import { Typography, Button, Grid, ExpansionPanelSummary, ExpansionPanelDetails, ExpansionPanel } from '@material-ui/core';
 import useStyles from './styles';
 import { useHistory, useParams } from "react-router-dom";
 import { useQuery, useMutation } from '@apollo/client';
 import DisplayDapp from '../../../components/display-dapp';
-import ListNotifications from '../../../components/list-notifications';
+// import ListNotifications from '../../../components/list-notifications';
 import { GET_SUBSCRIPTIONS } from '../../../graphql/queries/getSubscriptions';
-
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import LabeledSwitch from '../../../components/labeled-switch';
 
 export default function ManageNotifications() {
   const classes = useStyles();
@@ -25,9 +26,19 @@ export default function ManageNotifications() {
 
   const dApp = data.getUserSubscriptions[0].DApp;
   const notifications = data.getUserSubscriptions.map(item => {
-    return { ...item.Notification, disabled: true, selected: true };
+    return { ...item.Notification, disabled: false, checked: true };
   });
   const email = data.getUserSubscriptions[0].User.email;
+
+  const checkedNotifications = [];  
+
+  const handleChecked = (event) => {
+    if (event.target.checked) {
+      checkedNotifications.push(event.target.value);
+    } else {
+      checkedNotifications.pop(event.target.value);            
+    } 
+  };
 
   return (
     <div>
@@ -43,7 +54,30 @@ export default function ManageNotifications() {
       >
 
         {notifications ? 
-          <ListNotifications notifications={notifications}/>
+          notifications.map(notification => (
+            <Grid item xs={12} >
+              <LabeledSwitch 
+                checked={notification.checked}
+                title={notification.name} 
+                value={notification.uuid} 
+                onChange={handleChecked}
+              />
+              <ExpansionPanel>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                <Typography >{notification.shortDescription}</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <Typography>
+                    {notification.longDescription}
+                  </Typography>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            </Grid>
+          ))    
           :
             <Grid item xs={12} >
               <Typography variant="body" color="textSecondary" component="p">

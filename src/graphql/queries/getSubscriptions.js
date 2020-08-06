@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_SUBSCRIPTIONS = gql`
-  query getUserSubscriptions($userUuid: String!, $dAppUuid: String!) {
-    getUserSubscriptions(userUuid: $userUuid, dAppUuid: $dAppUuid){
+  query getUserSubscriptions($userUuid: String!) {
+    getUserSubscriptions(userUuid: $userUuid ){
       uuid
       dAppUuid,
       userUuid,
