@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import LabeledSwitch from '../../../components/labeled-switch';
 import useStyles from './confirm.styles';
 import { useSelector, useDispatch } from "react-redux";
-import { Notification } from "../notification.slice";
+import { Notification, updateEmail,updateSelectedNotifications } from "../notification.slice";
 import { useHistory } from "react-router-dom";
 import { useQuery ,useMutation } from '@apollo/client';
 import { SELECTED_DAPP } from '../../../graphql/queries/getDappsQueries';
@@ -25,13 +25,14 @@ export default function Confirm() {
   const [subscribeNotifications, {  data: subscribeNotificationData, error: subscribeNotificationsError }] = subscribeNotificationsMutation;
 
   const handleSubmit = () => {
-    subscribeNotifications({ variables: { email, dAppUuid,selectedNotifications } });
-  }
-  const isSelected = (notification) => {
-    const index = selectedNotifications.indexOf(notification.uuid);
-    const result = index > -1 ? true : false;
-    return result;
-  }
+      subscribeNotifications({ variables: { email, dAppUuid,selectedNotifications } });
+    }
+    
+    const isSelected = (notification) => {
+        const index = selectedNotifications.indexOf(notification.uuid);
+        const result = index > -1 ? true : false;
+        return result;
+    }
 
   if(subscribeNotificationsError){
     dispatch(openSnackbar({ message: "Failed. Please try again.", type: "error" }));
@@ -40,6 +41,9 @@ export default function Confirm() {
   if(subscribeNotificationData){
     dispatch(openSnackbar({message:  "Succeeded. Check your Inbox for more details.",type:"success"}));
     history.push("/");
+    //reset reducer;
+    dispatch(updateEmail(""));
+    dispatch(updateSelectedNotifications([]));
   }
 
   return (
