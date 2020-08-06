@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { updateSelectedDapp,updateSelectedNotifications } from '../notification.slice';
 import { useHistory } from "react-router-dom";
 import { useParams } from 'react-router-dom';
+import { openSnackbar } from '../../../components/snackbar/snackbar.slice';
 
 export default function SelectNotifications() {
   const classes = useStyles();
@@ -29,9 +30,13 @@ export default function SelectNotifications() {
   };
 
   const handleNext = () => {
+    if (checkedNotifications.length > 0) {
     dispatch(updateSelectedDapp(dAppUuid));
     dispatch(updateSelectedNotifications(checkedNotifications));
     history.push("/email")
+    } else {
+    dispatch(openSnackbar({ message: "Please subscribe to at least one notification.", type: "error" }));      
+    }    
   }
     
   return (

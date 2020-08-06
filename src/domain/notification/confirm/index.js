@@ -25,17 +25,7 @@ export default function Confirm() {
   const [subscribeNotifications, {  data: subscribeNotificationData, error: subscribeNotificationsError }] = subscribeNotificationsMutation;
 
   const handleSubmit = () => {
-    try {
       subscribeNotifications({ variables: { email, dAppUuid,selectedNotifications } });
-      dispatch(openSnackbar({message:  "Succeeded.Check your Inbox for more details.",type:"success"}))
-      //reset Reducer  
-      dispatch(updateEmail(""));
-      dispatch(updateSelectedNotifications([]));
-      history.push("/");
-      
-    } catch (err) {
-      dispatch(openSnackbar({ message: "Failed.Please try again.", type: "error" }));       
-      }       
     }
     
     const isSelected = (notification) => {
@@ -51,6 +41,9 @@ export default function Confirm() {
   if(subscribeNotificationData){
     dispatch(openSnackbar({message:  "Succeeded. Check your Inbox for more details.",type:"success"}));
     history.push("/");
+    //reset reducer;
+    dispatch(updateEmail(""));
+    dispatch(updateSelectedNotifications([]));
   }
 
   return (
