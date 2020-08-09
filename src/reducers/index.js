@@ -2,7 +2,7 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import notificationReducer from "../domain/notification/notification.slice";
 import snackbarReducer from "../components/snackbar/snackbar.slice";
-
+import config from "../services/config"
 const middleware = [...getDefaultMiddleware()]
 const reducer = {
   notification: notificationReducer,
@@ -12,5 +12,5 @@ const reducer = {
 export default configureStore({
   reducer,
   middleware,
-  devTools: process.env.NODE_ENV !== 'production',
+  devTools: config.REACT_APP_APOLLO_DEV_TOOLS,
 });
