@@ -1,7 +1,7 @@
 import React from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import useStyles from './snackbar.styles';
+import useStyles from './styles';
 import { Snackbar as SnackbarReducer, closeSnackbar } from "../snackbar/snackbar.slice";
 import { useSelector,useDispatch } from "react-redux";
 

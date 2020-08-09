@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {Container,CssBaseline,TextField,Button, Typography} from '@material-ui/core';
-import useStyles from './email.styles';
+import useStyles from './styles';
 import { useDispatch,useSelector } from "react-redux";
 import { updateEmail } from '.././notification.slice';
 import { useHistory } from "react-router-dom";

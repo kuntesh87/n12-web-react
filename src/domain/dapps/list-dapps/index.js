@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import useStyles from './styles';
-import { ALL_DAPPS } from '../../../graphql/queries/getDappsQueries'
+import { ALL_DAPPS } from '../../../graphql/queries/getDapps'
 import ErrorMessage from '../../../components/error-message';
 
 function Dapps() {
@@ -19,7 +19,7 @@ function Dapps() {
   const { loading, error, data } = useQuery(ALL_DAPPS);
 
   const viewDetail = (dapp) => {
-    history.push("/selectNotifications/" + dapp.uuid);
+    history.push("/select-notifications/" + dapp.uuid);
   };
 
   const renderEachDapp = (dapp) => {

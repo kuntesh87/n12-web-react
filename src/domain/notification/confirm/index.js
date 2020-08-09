@@ -2,13 +2,13 @@ import React from 'react';
 import { Typography,  Avatar, Button, Grid, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import LabeledSwitch from '../../../components/labeled-switch';
-import useStyles from './confirm.styles';
+import useStyles from './styles';
 import { useSelector, useDispatch } from "react-redux";
 import { Notification, updateEmail,updateSelectedNotifications } from "../notification.slice";
 import { useHistory } from "react-router-dom";
 import { useQuery ,useMutation } from '@apollo/client';
-import { SELECTED_DAPP } from '../../../graphql/queries/getDappsQueries';
-import {  SUBSCRIBE_NOTIFICATIONS } from '../../../graphql/mutations/subscribeNotificationsMutation';
+import { SELECTED_DAPP } from '../../../graphql/queries/getDapps';
+import { SUBSCRIBE_NOTIFICATIONS } from '../../../graphql/mutations/subscribeNotifications';
 import { openSnackbar } from '../../../components/snackbar/snackbar.slice';
 
 export default function Confirm() {
@@ -29,7 +29,7 @@ export default function Confirm() {
         history.push("/");
       }
     }); 
-  const [subscribeNotifications, {  data: subscribeNotificationData, error: subscribeNotificationsError }] = subscribeNotificationsMutation;
+  const [subscribeNotifications, { error: subscribeNotificationsError }] = subscribeNotificationsMutation;
 
   const handleSubmit = async () => {
     subscribeNotifications({
@@ -109,8 +109,6 @@ export default function Confirm() {
         </Grid>
         : console.log(error)      
       }
-      {/* { subscribeNotificationData && console.log('submit data') } */}
-      {/* { subscribeNotificationsError && somethingWentWrong } */}
     </div>
   );
 }

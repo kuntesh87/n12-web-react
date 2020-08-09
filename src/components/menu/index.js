@@ -1,41 +1,19 @@
 import React, { useState, Fragment } from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import History from '@material-ui/icons/History';
 import MoreIcon from '@material-ui/icons/MoreVert';
-
-
-// import { useQuery, useMutation } from '@apollo/react-hooks';
-// import { GET_HISTORY_TOGGLE } from '../../graphql/queries/historyToggleQueries';
-// import { UPDATE_HISTORY_TOGGLE } from '../../graphql/mutations/historyToggleMutation';
 
 // import Badge from '@material-ui/core/Badge';
 // import MailIcon from '@material-ui/icons/Mail';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import AccountCircle from '@material-ui/icons/AccountCircle';
-// import {HistoryToggleContext} from '../../context/history-toggle-context';
 
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-
-// uncomment for redux
-import {useSelector, useDispatch} from 'react-redux';
-import { toggleHistory } from "./history-menu.slice";
-
 import useStyles from './menu.styles';
 
 const PrimaryMenuAppBar = (props) => {
   const classes = useStyles();
-  // uncomment for context
-  // const historyToggleContext = useContext(HistoryToggleContext);
-
-  // uncomment for redux
-  const historyToggle = useSelector(state => state.historyMenu.historyToggle);
-  const dispatch = useDispatch();
-
-  // const { data } = useQuery(GET_HISTORY_TOGGLE);
-
-  // const [toggleHistory] = useMutation(UPDATE_HISTORY_TOGGLE, { variables: { historyToggle: !data.historyToggle } })
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -63,19 +41,6 @@ const PrimaryMenuAppBar = (props) => {
     handleMobileMenuClose();
   };
 
-  const handleHistoryToggle = (event) => {  
-    // uncomment for Context
-    // historyToggleContext.myFunction();
-    // console.log(historyToggleContext.historyToggle);
-    // historyToggleContext.setHistoryToggle(!historyToggleContext.historyToggle);
-
-    // uncomment for redux
-    dispatch(toggleHistory(!historyToggle));
-
-    // uncomment for apollo state management
-    // toggleHistory();
-  };
-
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -101,41 +66,6 @@ const PrimaryMenuAppBar = (props) => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleHistoryToggle}>
-        <IconButton color="inherit" >
-          {/*  uncomment for Context
-          <HistoryToggleContext.Consumer>
-            { historyToggleContext => {
-                return (
-                  <Fragment>
-                    {historyToggleContext.historyToggle ? 
-                    <History /> : 
-                    <History color="action" />
-                    }
-                  </Fragment>
-                );
-              }
-            }
-          </HistoryToggleContext.Consumer> */}
-
-          {/* uncomment for redux */}
-            <Fragment>
-              {historyToggle ? 
-              <History /> : 
-              <History color="action" />
-              }
-            </Fragment>
-
-          {/* uncomment for apollo
-            <Fragment>
-              {data.historyToggle ? 
-              <History /> : 
-              <History color="action" />
-              }
-            </Fragment> */}
-        </IconButton>
-        <p>History</p>
-      </MenuItem>
       {/* <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
@@ -169,38 +99,6 @@ const PrimaryMenuAppBar = (props) => {
   return (
     <Fragment>
       <div className={classes.sectionDesktop}>
-        <IconButton color="inherit" onClick={handleHistoryToggle}>
-          {/* uncomment for react context
-          <HistoryToggleContext.Consumer>
-            { historyToggleContext => {
-                return (
-                  <Fragment>
-                    {historyToggleContext.historyToggle ? 
-                    <History /> : 
-                    <History color="action" />
-                    }
-                  </Fragment>
-                );
-              }
-            }
-          </HistoryToggleContext.Consumer> */}
-
-          {/* uncomment for apollo client
-          <Fragment>
-            {data.historyToggle ? 
-            <History /> : 
-            <History color="action" />
-            }
-          </Fragment> 
-          */}
-
-          <Fragment>
-            {historyToggle ? 
-            <History /> : 
-            <History color="action" />
-            }
-          </Fragment>
-        </IconButton>
         {/* <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
             <MailIcon />

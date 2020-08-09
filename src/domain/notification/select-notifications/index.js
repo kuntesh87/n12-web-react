@@ -1,10 +1,10 @@
 import React from 'react';
-import { SELECTED_DAPP } from '../../../graphql/queries/getDappsQueries';
+import { SELECTED_DAPP } from '../../../graphql/queries/getDapps';
 import { useQuery } from '@apollo/client';
 import { Typography,  Avatar, Button, Grid, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import LabeledSwitch from '../../../components/labeled-switch';
-import useStyles from './select-notifications.styles';
+import useStyles from './styles';
 import { useDispatch } from "react-redux";
 import { updateSelectedDapp,updateSelectedNotifications } from '../notification.slice';
 import { useHistory } from "react-router-dom";
