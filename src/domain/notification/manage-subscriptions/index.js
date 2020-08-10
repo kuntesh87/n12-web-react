@@ -1,9 +1,6 @@
 import React from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { Typography, Button, Grid, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, CircularProgress } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import LabeledSwitch from '../../../components/labeled-switch';
-import useStyles from './styles';
+import { Typography, Button,Card, Grid,CircularProgress } from '@material-ui/core';import useStyles from './styles';
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useParams } from 'react-router-dom';
@@ -11,6 +8,8 @@ import { openSnackbar } from '../../../components/snackbar/snackbar.slice';
 import { GET_SUBSCRIPTIONS } from '../../../graphql/queries/getSubscriptions';
 import { UNSUBSCRIBE_NOTIFICATIONS } from '../../../graphql/mutations/unsubscribeNotifications';
 import ErrorMessage from '../../../components/error-message';
+import ListNotifications from '../../../components/list-notifications';
+import DApp from '../../../components/dApp';
 
 export default function ManageSubscriptions() {
   const classes = useStyles();
@@ -83,7 +82,7 @@ export default function ManageSubscriptions() {
   });
 
   return (
-    <div>
+    <Card>
       {
         data ?
           <Grid
@@ -114,32 +113,13 @@ export default function ManageSubscriptions() {
             {
 
               Object.values(dApps).map(dApp => {
-
-                return dApp.notifications.map(notification => (
-                  <Grid item xs={12} key={notification.uuid}>
-                    <LabeledSwitch
-                      title={`${dApp.dApp.name} ${notification.name}`}
-                      value={notification.uuid}
-                      onChange={onChange}
-                    />
-                    <ExpansionPanel>
-                      <ExpansionPanelSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
-                      >
-                        <Typography className={classes.heading}>{notification.shortDescription}</Typography>
-                      </ExpansionPanelSummary>
-                      <ExpansionPanelDetails>
-                        <Typography>
-                          {notification.longDescription}
-                        </Typography>
-                      </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                  </Grid>
-                ))
-
-              })
+                return (
+                  <div>
+                    <DApp dApp ={dApp} />  
+                    <ListNotifications notifications={dApp.notifications} onChange={onChange} />
+                  </div>
+                )
+              })              
             }
             <Grid item xs={12} >
               <Button variant="contained" color="primary" onClick={handleUnSubscribe}>
@@ -149,6 +129,6 @@ export default function ManageSubscriptions() {
           </Grid>
           : console.log(error)
       }
-    </div>
+    </Card>
   );
 }

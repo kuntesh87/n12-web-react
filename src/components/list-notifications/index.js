@@ -4,7 +4,7 @@ import { Typography, Grid, ExpansionPanelSummary, ExpansionPanelDetails, Expansi
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import LabeledSwitch from '../labeled-switch';
 
-export default function ListNotifications({ notifications }) {
+export default function ListNotifications({ notifications , onChange }) {
   return (
     <Grid
       container
@@ -21,6 +21,7 @@ export default function ListNotifications({ notifications }) {
               disabled={notification.disabled} 
               checked={notification.checked} 
               value={notification.uuid} 
+              onChange={onChange}
             />
             <ExpansionPanel>
               <ExpansionPanelSummary
